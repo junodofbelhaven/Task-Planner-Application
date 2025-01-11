@@ -5,6 +5,6 @@ public class BasicMessage extends Message{
     Message message;
     @Override
     public String getMessage() {
-      return "";
+      return "sasdasfda";
     }
 }
