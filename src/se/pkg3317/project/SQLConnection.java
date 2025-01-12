@@ -19,14 +19,14 @@ import javax.swing.table.DefaultTableModel;
 public class SQLConnection {
     
     private static Connection connection;
-    View view;
+    TaskView view;
     
     
     public static Connection getConnection() {
         return connection;
     }
 
-    public SQLConnection(View view) {
+    public SQLConnection(TaskView view) {
         
         this.view = view;
         
@@ -100,26 +100,20 @@ public class SQLConnection {
     }
 
     public void loadTasksToTable() {
-        // Veritabanı bağlantı bilgileri
-        String url = "jdbc:mysql://localhost:3306/your_database"; // Veritabanı URL'si
-        String username = "your_username"; // Kullanıcı adı
-        String password = "your_password"; // Şifre
-        String query = "SELECT taskName, shortDescription, category, deadline FROM your_table_name";
-
-        // JTable modelini al
-        DefaultTableModel model = (DefaultTableModel) view.tasklistTable.getModel();
         
-        // Tabloyu temizle
+        String query = "SELECT taskName, shortDescription, category, deadline FROM tasks";
+
+        DefaultTableModel model = (DefaultTableModel) view.getTasklistTable().getModel();
+        
         model.setRowCount(0);
 
-        try (Connection connection = DriverManager.getConnection(url, username, password); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
 
-            // Verileri ResultSet'ten oku ve JTable'a ekle
             while (resultSet.next()) {
                 String taskName = resultSet.getString("taskName");
                 String shortDescription = resultSet.getString("shortDescription");
-                String category = resultSet.getString("category");
-                Date deadline = resultSet.getDate("deadline"); // SQL DATE, Java'da `java.sql.Date`
+                String category = resultSet.getString("category"); 
+                Date deadline = resultSet.getDate("deadline"); 
 
                 // Her satırı tabloya ekle
                 model.addRow(new Object[]{taskName, shortDescription, category, deadline});
@@ -128,8 +122,8 @@ public class SQLConnection {
         } catch (SQLException e) {
             e.printStackTrace();
             javax.swing.JOptionPane.showMessageDialog(null,
-                    "Veriler yüklenirken bir hata oluştu: " + e.getMessage(),
-                    "Hata", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    "Failed to load the data: " + e.getMessage(),
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 
