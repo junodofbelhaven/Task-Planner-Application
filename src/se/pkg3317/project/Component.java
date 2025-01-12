@@ -4,10 +4,13 @@
  */
 package se.pkg3317.project;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author anil
  */
-public class TaskComponent {
-    
+public interface Component {
+
+    public void display(DefaultTableModel tableModel);
 }

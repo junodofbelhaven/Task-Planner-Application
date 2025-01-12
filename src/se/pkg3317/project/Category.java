@@ -10,8 +10,8 @@ import java.util.ArrayList;
  *
  * @author anil
  */
-public class Category implements TaskSubject{
-    
+public class Category implements TaskSubject {
+
     private String categoryName;
     private ArrayList<Task> taskList;
     private ArrayList<TaskObserver> observers = new ArrayList<>();
@@ -24,9 +24,9 @@ public class Category implements TaskSubject{
     public String getCategoryName() {
         return categoryName;
     }
-    
-    public void addTask(Task task){
-        taskList.add(task);        
+
+    public void addTask(Task task) {
+        taskList.add(task);
     }
 
     @Override
@@ -41,14 +41,9 @@ public class Category implements TaskSubject{
 
     @Override
     public void notifyObservers() {
-        for(TaskObserver o : observers){
+        for (TaskObserver o : observers) {
             o.update();
         }
     }
-     
-  
-    
-    
-    
-    
+
 }

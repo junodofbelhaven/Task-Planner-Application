@@ -19,6 +19,10 @@ public class SQLConnection {
 
     private static Connection connection;
 
+    public static Connection getConnection() {
+        return connection;
+    }
+
     public SQLConnection() {
         try {
             this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/task_db", "root", "asdbnm1122");
@@ -28,7 +32,7 @@ public class SQLConnection {
     }
 
     public void addTask(Task task) {
-        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO tasks (taskName, description, category, deadline) VALUES (?, ?, ?, ?)")) {
+        try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("INSERT INTO tasks (taskName, description, category, deadline) VALUES (?, ?, ?, ?)")) {
             stmt.setString(1, task.getTaskName());
             stmt.setString(2, task.getDesc());
             stmt.setString(3, task.getCategory().toString());
