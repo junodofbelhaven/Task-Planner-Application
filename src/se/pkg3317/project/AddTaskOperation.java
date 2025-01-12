@@ -4,21 +4,27 @@
  */
 package se.pkg3317.project;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author No2Mo
  */
 public class AddTaskOperation implements TaskOperation {
 
-    
-
-    
     @Override
-    public void execute(SQLConnection sql, Task task) {
-        sql.addTask(task);
+    public void execute(Task task) {
+        try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("INSERT INTO tasks (taskName, description, category, deadline) VALUES (?, ?, ?, ?)")) {
+            stmt.setString(1, task.getTaskName());
+            stmt.setString(2, task.getDesc());
+            stmt.setString(3, task.getCategory().toString());
+            stmt.setDate(4, Date.valueOf(task.getDeadline()));
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    
-    
+
 }
-
-

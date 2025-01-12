@@ -10,6 +10,6 @@ package se.pkg3317.project;
  */
 public interface TaskOperation {
     
-    void execute(SQLConnection sql , Task task);
+    void execute(Task task);
     
 }

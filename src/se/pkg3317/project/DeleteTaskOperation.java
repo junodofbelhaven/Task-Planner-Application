@@ -4,21 +4,23 @@
  */
 package se.pkg3317.project;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author No2Mo
  */
 public class DeleteTaskOperation implements TaskOperation {
 
-    private int taskID;
-
-    public DeleteTaskOperation(int taskID) {
-        this.taskID = taskID;
-    }
-    
-    
     @Override
-    public void execute(SQLConnection sql, Task task) {
-       sql.deleteTask(task.getTaskName());
+    public void execute(Task task) {
+        try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("DELETE FROM tasks WHERE taskName = ?")) {
+            stmt.setString(1, task.getTaskName());
+            stmt.executeUpdate();
+            task.getCategory().removeTask(task);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

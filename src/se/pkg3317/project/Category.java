@@ -30,6 +30,18 @@ public class Category implements TaskSubject, Component {
         taskList.add(task);
     }
 
+    public void removeTask(Task task) {
+        taskList.remove(task);
+    }
+    
+    public Task getTaskByName(String taskName){
+        for(Task task : taskList){
+            if (task.getTaskName().equals(taskName))
+                return task;
+        }
+        return null;
+    }
+
     @Override
     public void addObserver(TaskObserver o) {
         observers.add(o);
