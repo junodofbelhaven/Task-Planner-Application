@@ -12,5 +12,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public interface Component {
 
-    public void display(DefaultTableModel tableModel);
+    public void addToTable(DefaultTableModel tableModel);
+    public void removeFromTable(DefaultTableModel tableModel);
 }

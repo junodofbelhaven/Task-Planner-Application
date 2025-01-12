@@ -5,12 +5,13 @@
 package se.pkg3317.project;
 
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author anil
  */
-public class Task {
+public class Task implements Component{
     
     private String taskName;
     private String desc;
@@ -22,6 +23,7 @@ public class Task {
         this.desc = desc;
         this.category = category;
         this.deadline = deadline;
+        category.addTask(this);
     }
 
     public String getTaskName() {
@@ -54,6 +56,16 @@ public class Task {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    @Override
+    public void addToTable(DefaultTableModel tableModel) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void removeFromTable(DefaultTableModel tableModel) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

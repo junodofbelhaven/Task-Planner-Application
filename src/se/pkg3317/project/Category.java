@@ -5,20 +5,21 @@
 package se.pkg3317.project;
 
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author anil
  */
-public class Category implements TaskSubject {
+public class Category implements TaskSubject, Component {
 
     private String categoryName;
     private ArrayList<Task> taskList;
     private ArrayList<TaskObserver> observers = new ArrayList<>();
 
-    public Category(String categoryName, ArrayList<Task> taskList) {
+    public Category(String categoryName) {
         this.categoryName = categoryName;
-        this.taskList = taskList;
+        this.taskList = new ArrayList<>();
     }
 
     public String getCategoryName() {
@@ -43,6 +44,20 @@ public class Category implements TaskSubject {
     public void notifyObservers() {
         for (TaskObserver o : observers) {
             o.update();
+        }
+    }
+
+    @Override
+    public void addToTable(DefaultTableModel tableModel) {
+        for(Task t : taskList){
+            t.addToTable(tableModel);
+        }
+    }
+
+    @Override
+    public void removeFromTable(DefaultTableModel tableModel) {
+        for(Task t : taskList){
+            t.removeFromTable(tableModel);
         }
     }
 
