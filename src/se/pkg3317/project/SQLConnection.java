@@ -47,6 +47,7 @@ public class SQLConnection {
         try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM tasks WHERE taskName = ?")) {
             stmt.setString(1, taskName);
             stmt.executeUpdate();
+            //implement deleting the task from the category's taskList.
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,8 +81,8 @@ public class SQLConnection {
         }
     }
 
-    public static void updateTask(Task task) {
-        try (PreparedStatement stmt = connection.prepareStatement("UPDATE tasks description = ?, category = ?, deadline = ? WHERE taskName = ?")) {
+    public void updateTask(Task task) {
+        try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("UPDATE tasks description = ?, category = ?, deadline = ? WHERE taskName = ?")) {
             stmt.setString(1, task.getDesc());
             stmt.setString(2, task.getCategory().getCategoryName());
             stmt.setDate(3, Date.valueOf(task.getDeadline()));
