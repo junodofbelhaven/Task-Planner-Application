@@ -8,6 +8,17 @@ package se.pkg3317.project;
  *
  * @author No2Mo
  */
-public class DeleteTaskOperation {
+public class DeleteTaskOperation implements TaskOperation {
+
+    private int taskID;
+
+    public DeleteTaskOperation(int taskID) {
+        this.taskID = taskID;
+    }
     
+    
+    @Override
+    public void execute(SQLConnection sql, Task task) {
+       sql.deleteTask(task.getTaskName());
+    }
 }

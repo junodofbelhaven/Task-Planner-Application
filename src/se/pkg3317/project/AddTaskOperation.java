@@ -8,6 +8,17 @@ package se.pkg3317.project;
  *
  * @author No2Mo
  */
-public class AddTaskOperation {
+public class AddTaskOperation implements TaskOperation {
+
+    
+
+    
+    @Override
+    public void execute(SQLConnection sql, Task task) {
+        sql.addTask(task);
+    }
+    
     
 }
+
+
