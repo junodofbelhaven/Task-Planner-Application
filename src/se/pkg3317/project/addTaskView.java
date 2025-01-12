@@ -4,6 +4,10 @@
  */
 package se.pkg3317.project;
 
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  *
  * @author anil
@@ -143,6 +147,26 @@ public class addTaskView extends javax.swing.JFrame {
     private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryComboBoxActionPerformed
+
+    public String getSelectedCategory() {
+        return categoryComboBox.getSelectedItem().toString();
+    }
+
+    public String getSelectedDay() {
+        return dayComboBox.getSelectedItem().toString();
+    }
+
+    public JTextArea getDescriptionTextArea() {
+        return descriptionTextArea;
+    }
+
+    public String getSelectedMonth() {
+        return monthComboBox.getSelectedItem().toString();
+    }
+
+    public JTextField getTaskNameField() {
+        return taskNameField;
+    }
 
     
     public static void main(String args[]) {
