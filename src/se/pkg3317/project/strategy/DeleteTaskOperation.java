@@ -20,7 +20,6 @@ public class DeleteTaskOperation implements TaskOperation {
         try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("DELETE FROM tasks WHERE taskName = ?")) {
             stmt.setString(1, task.getTaskName());
             stmt.executeUpdate();
-            task.getCategory().removeTask(task);
         } catch (SQLException e) {
             e.printStackTrace();
         }

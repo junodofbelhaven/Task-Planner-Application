@@ -45,105 +45,95 @@ public class TaskController {
 
     private Category getCategoryByCategoryName(String categoryName) {
 
-        if (categoryName.equals("Work")) {
-            return work;
-        } else if (categoryName.equals("Holiday")) {
-            return holiday;
-        } else {
-            return home;
+        switch (categoryName) {
+            case "Work":
+                return work;
+            case "Holiday":
+                return holiday;
+            case "Home":
+                return home;
+            default:
+                JOptionPane.showConfirmDialog(taskView, "invalid category.");
+                break;
         }
+        return null;
+
     }
 
     private void executeAddTask() {
-        try {
 
-            Task task;
+        Task task;
 
-            String taskName = addTaskView.getTaskNameField().getText();
-            String description = addTaskView.getDescriptionTextArea().getText();
-            String deadline = addTaskView.getSelectedDay() + "-" + addTaskView.getSelectedMonth() + "-2025";
-            String categoryName = addTaskView.getSelectedCategory();
+        String taskName = addTaskView.getTaskNameField().getText();
+        String description = addTaskView.getDescriptionTextArea().getText();
+        String deadline = addTaskView.getSelectedDay() + "-" + addTaskView.getSelectedMonth() + "-2025";
+        String categoryName = addTaskView.getSelectedCategory();
 
-            if (categoryName.equals("Work")) {
-                task = new Task(taskName, description, work, deadline);
-            } else if (categoryName.equals("Holiday")) {
-                task = new Task(taskName, description, holiday, deadline);
-            } else {
-                task = new Task(taskName, description, home, deadline);
-            }
-
-            if (taskName.isEmpty() || description.isEmpty() || categoryName.isEmpty() || deadline.isEmpty()) {
-                JOptionPane.showMessageDialog(addTaskView, "All fields are required!");
-                return;
-            }
-
-            //adding the new task to sql table
-            taskOperation = addTaskOperation;
-            taskOperation.execute(task);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(addTaskView, "Error adding task: " + e.getMessage());
+        if (taskName.isEmpty() || description.isEmpty() || categoryName.isEmpty() || deadline.isEmpty()) {
+            JOptionPane.showMessageDialog(addTaskView, "All fields are required!");
+            return;
         }
+
+        task = new Task(taskName, description, getCategoryByCategoryName(categoryName), deadline);
+
+        //adding the new task to sql table
+        taskOperation = addTaskOperation;
+        taskOperation.execute(task);
+
     }
 
-   public void executeDeleteTask() {
-        try {
-            int selectedRow = taskView.getTasklistTable().getSelectedRow();
+    public void executeDeleteTask() {
 
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(taskView, "Please select a task to delete.");
-                return;
-            }
-            Task deletedTask;
-            String deletedTaskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
-            String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
+        int selectedRow = taskView.getTasklistTable().getSelectedRow();
 
-            Category c = getCategoryByCategoryName(categoryName);
-
-            deletedTask = c.getTaskByName(deletedTaskName);
-
-            taskOperation = deleteTaskOperation;
-            taskOperation.execute(deletedTask);
-
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(taskView, "Please select a task to delete.");
+            return;
         }
-    catch (Exception e) {
-            JOptionPane.showMessageDialog(taskView, "Error deleting task: " + e.getMessage());
-    }
 
-}
+        String deletedTaskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
+        String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
+
+        Category category = getCategoryByCategoryName(categoryName);
+        Task deletedTask = category.getTaskByName(deletedTaskName);
+
+        category.removeTask(deletedTask);
+
+        taskOperation = deleteTaskOperation;
+        taskOperation.execute(deletedTask);
+
+    }
 
     private void executeUpdateTask() {
-        try {
-            int selectedRow = taskView.getTasklistTable().getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(taskView, "Please select a task to edit.");
-                return;
-            }
-            Task task;
-            String taskName = addTaskView.getTaskNameField().getText();
-            String description = addTaskView.getDescriptionTextArea().getText();
-            String deadline = addTaskView.getSelectedDay() + "-" + addTaskView.getSelectedMonth() + "-2025";
-            String categoryName = addTaskView.getSelectedCategory();
 
-            if (taskName.isEmpty() || description.isEmpty() || categoryName.isEmpty() || deadline.isEmpty()) {
-                JOptionPane.showMessageDialog(taskView, "All fields are required!");
-                return;
-            }
+        int selectedRow = taskView.getTasklistTable().getSelectedRow();
 
-            if (categoryName.equals("Work")) {
-                task = work.getTaskByName(taskName);
-            } else if (categoryName.equals("Holiday")) {
-                task = holiday.getTaskByName(taskName);
-            } else {
-                task = home.getTaskByName(taskName);
-            }
-
-            taskOperation = updateTaskOperation;
-            taskOperation.execute(task);
-
-        } catch (HeadlessException e) {
-            JOptionPane.showMessageDialog(taskView, "Error updating task: " + e.getMessage());
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(taskView, "Please select a task to edit.");
+            return;
         }
+
+        String taskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
+        String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
+        Category category = getCategoryByCategoryName(categoryName);
+        Task task = category.getTaskByName(taskName);
+        
+        String newDescription = addTaskView.getDescriptionTextArea().getText();
+        String newDeadline = addTaskView.getSelectedDay() + "-" + addTaskView.getSelectedMonth() + "-2025";
+        String newCategory = addTaskView.getSelectedCategory();
+
+        if (newDescription.isEmpty() || newCategory.isEmpty() || newDeadline.isEmpty()) {
+            JOptionPane.showMessageDialog(taskView, "All fields are required!");
+            return;
+        }
+
+        
+        task.updateTaskVariables(newDescription, getCategoryByCategoryName(newCategory), newDeadline);
+        
+        //updating the task in SQL table
+        taskOperation = updateTaskOperation;
+        taskOperation.execute(task);
+
     }
 
 }

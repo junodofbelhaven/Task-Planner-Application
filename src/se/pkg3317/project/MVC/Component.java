@@ -5,6 +5,7 @@
 package se.pkg3317.project.MVC;
 
 import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.decorator.Message;
 
 /**
  *
@@ -12,6 +13,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public interface Component {
 
-    public void addToTable(DefaultTableModel tableModel);
-    public void removeFromTable(DefaultTableModel tableModel);
+    public void sendNotification();
+
 }

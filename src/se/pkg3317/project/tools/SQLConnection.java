@@ -34,10 +34,14 @@ public class SQLConnection {
 
     public SQLConnection(TaskView view) {
         
+        String URL = "jdbc:mysql://localhost:3306/task_db";
+        String username = "root";
+        String password = "asdbnm1122";
+        
         this.view = view;
         
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/task_db", "root", "asdbnm1122");
+            this.connection = DriverManager.getConnection(URL, username, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }

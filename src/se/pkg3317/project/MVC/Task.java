@@ -4,19 +4,20 @@
  */
 package se.pkg3317.project.MVC;
 
-import java.util.Date;
-import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.decorator.BasicMessage;
+import se.pkg3317.project.decorator.Message;
 
 /**
  *
  * @author anil
  */
-public class Task implements Component{
-    
+public class Task implements Component {
+
     private String taskName;
     private String desc;
     private Category category;
     private String deadline;
+    private Message message;
 
     public Task(String taskName, String desc, Category category, String deadline) {
         this.taskName = taskName;
@@ -24,52 +25,36 @@ public class Task implements Component{
         this.category = category;
         this.deadline = deadline;
         category.addTask(this);
+        message = new BasicMessage();
+    }
+
+    public void updateTaskVariables(String desc, Category category, String deadline) {
+        this.desc = desc;
+        this.deadline = deadline;
+        category.removeTask(this);
+        this.category = category;
+        category.addTask(this);
     }
 
     public String getTaskName() {
         return taskName;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
     public String getDesc() {
         return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
-
     @Override
-    public void addToTable(DefaultTableModel tableModel) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void sendNotification() {
+
     }
 
-    @Override
-    public void removeFromTable(DefaultTableModel tableModel) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    
-    
-    
-    
 }

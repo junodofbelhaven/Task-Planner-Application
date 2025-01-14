@@ -16,9 +16,6 @@ import se.pkg3317.project.MVC.Task;
  */
 public class UpdateTaskOperation implements TaskOperation {
 
-    public UpdateTaskOperation() {
-    }
-
     @Override
     public void execute(Task task) {
         try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("UPDATE tasks description = ?, category = ?, deadline = ? WHERE taskName = ?")) {

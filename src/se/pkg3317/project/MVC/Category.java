@@ -8,6 +8,7 @@ import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.decorator.Message;
 
 /**
  *
@@ -35,11 +36,12 @@ public class Category implements TaskSubject, Component {
     public void removeTask(Task task) {
         taskList.remove(task);
     }
-    
-    public Task getTaskByName(String taskName){
-        for(Task task : taskList){
-            if (task.getTaskName().equals(taskName))
+
+    public Task getTaskByName(String taskName) {
+        for (Task task : taskList) {
+            if (task.getTaskName().equals(taskName)) {
                 return task;
+            }
         }
         return null;
     }
@@ -62,16 +64,9 @@ public class Category implements TaskSubject, Component {
     }
 
     @Override
-    public void addToTable(DefaultTableModel tableModel) {
-        for(Task t : taskList){
-            t.addToTable(tableModel);
-        }
-    }
-
-    @Override
-    public void removeFromTable(DefaultTableModel tableModel) {
-        for(Task t : taskList){
-            t.removeFromTable(tableModel);
+    public void sendNotification() {
+        for(Task task : taskList){
+            task.sendNotification();
         }
     }
 
