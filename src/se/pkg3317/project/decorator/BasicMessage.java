@@ -1,10 +1,19 @@
 package se.pkg3317.project.decorator;
 
+import se.pkg3317.project.MVC.Task;
+
 public class BasicMessage extends Message{
 
-    Message message;
+    Task task;
+
+    public BasicMessage(Task task) {
+        message = "";
+        this.task = task;
+    }
+    
+    
     @Override
     public String getMessage() {
-      return "";
+      return message;
     }
 }

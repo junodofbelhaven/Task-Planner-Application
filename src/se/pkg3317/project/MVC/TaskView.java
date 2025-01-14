@@ -10,18 +10,21 @@ import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import se.pkg3317.project.decorator.BasicMessage;
+import se.pkg3317.project.decorator.Date;
+import se.pkg3317.project.decorator.Day;
+import se.pkg3317.project.decorator.Message;
 import se.pkg3317.project.tools.SQLConnection;
 import se.pkg3317.project.tools.TimerOperations;
+
 /**
  *
  * @author anil
  */
-public class TaskView extends javax.swing.JFrame implements TaskObserver{
+public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
-   
-   TaskSubject taskSubject;
-   TimerOperations timerOperation;
-
+    TaskSubject taskSubject;
+    TimerOperations timerOperation;
     
     public TaskView(TaskSubject taskSubject) {
         this.taskSubject = taskSubject;
@@ -36,9 +39,7 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver{
     public JTable getTasklistTable() {
         return tasklistTable;
     }
-    
-    
-    
+
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -261,13 +262,11 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver{
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Category work = new Category("work");
-                Task task = new Task("plan work","a",work,"01-03-2025");
+                Task task = new Task("plan work", "a", work, "01-03-2025");
                 TaskView view = new TaskView(work);
                 view.setVisible(true);
                 SQLConnection c = new SQLConnection(view);
@@ -295,5 +294,8 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver{
     private javax.swing.JTable tasklistTable;
     // End of variables declaration//GEN-END:variables
 
-    
+    public String getDateLabel() {
+        return DateLabel.getText();
+    }
+
 }

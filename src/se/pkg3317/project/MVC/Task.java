@@ -4,6 +4,7 @@
  */
 package se.pkg3317.project.MVC;
 
+import java.util.Date;
 import se.pkg3317.project.decorator.BasicMessage;
 import se.pkg3317.project.decorator.Message;
 
@@ -16,19 +17,19 @@ public class Task implements Component {
     private String taskName;
     private String desc;
     private Category category;
-    private String deadline;
+    private Date deadline;
     private Message message;
 
-    public Task(String taskName, String desc, Category category, String deadline) {
+    public Task(String taskName, String desc, Category category, Date deadline) {
         this.taskName = taskName;
         this.desc = desc;
         this.category = category;
         this.deadline = deadline;
         category.addTask(this);
-        message = new BasicMessage();
+        message = new BasicMessage(this);
     }
 
-    public void updateTaskVariables(String desc, Category category, String deadline) {
+    public void updateTaskVariables(String desc, Category category, Date deadline) {
         this.desc = desc;
         this.deadline = deadline;
         category.removeTask(this);
@@ -48,7 +49,7 @@ public class Task implements Component {
         return category;
     }
 
-    public String getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
