@@ -7,7 +7,7 @@ package se.pkg3317.project.strategy;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import se.pkg3317.project.MVC.SQLConnection;
+import se.pkg3317.project.tools.SQLConnection;
 import se.pkg3317.project.MVC.Task;
 
 /**

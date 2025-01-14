@@ -12,7 +12,7 @@ import se.pkg3317.project.strategy.DeleteTaskOperation;
 import se.pkg3317.project.strategy.UpdateTaskOperation;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
-import se.pkg3317.project.MVC.SQLConnection;
+import se.pkg3317.project.tools.SQLConnection;
 import se.pkg3317.project.MVC.TaskView;
 import se.pkg3317.project.tools.addTaskView;
 

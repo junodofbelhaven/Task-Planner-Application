@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package se.pkg3317.project.MVC;
+package se.pkg3317.project.tools;
 
 /**
  *
@@ -18,6 +18,9 @@ import se.pkg3317.project.MVC.Category;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.MVC.Category;
+import se.pkg3317.project.MVC.Task;
+import se.pkg3317.project.MVC.TaskView;
 
 public class SQLConnection {
     
