@@ -9,23 +9,30 @@ import se.pkg3317.project.MVC.Category;
 import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import se.pkg3317.project.MVC.SQLConnection;
-
+import se.pkg3317.project.tools.TimerOperations;
 /**
  *
  * @author anil
  */
 public class TaskView extends javax.swing.JFrame implements TaskObserver{
 
-    TaskSubject taskSubject;
+   
+   TaskSubject taskSubject;
+   TimerOperations timerOperation;
+
     
-    /**
-     * Creates new form NewJFrame
-     */
     public TaskView(TaskSubject taskSubject) {
         this.taskSubject = taskSubject;
         taskSubject.addObserver(this);
         initComponents();
+        DayLabel.setText("Tuesday");
+        DateLabel.setText("14.01");
+        DateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        DayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        timerOperation = new TimerOperations(DayLabel, DateLabel, "14.01");
+        timerOperation.start();
     }
 
     public JTable getTasklistTable() {
