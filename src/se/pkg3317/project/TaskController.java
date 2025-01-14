@@ -77,7 +77,7 @@ public class TaskController {
         }
     }
 
-    public void executeDeleteTask() {
+   public void executeDeleteTask() {
         try {
             int selectedRow = taskView.getTasklistTable().getSelectedRow();
 
@@ -85,18 +85,23 @@ public class TaskController {
                 JOptionPane.showMessageDialog(taskView, "Please select a task to delete.");
                 return;
             }
+            Task deletedTask;
+            String deletedTaskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
+            String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
 
-            String taskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
-            
-            getCategoryByCategoryName(taskName);
+            Category c = getCategoryByCategoryName(categoryName);
+
+            deletedTask = c.getTaskByName(deletedTaskName);
+
             taskOperation = deleteTaskOperation;
-            taskOperation.execute();
+            taskOperation.execute(deletedTask);
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(taskView, "Error deleting task: " + e.getMessage());
         }
-
+    catch (Exception e) {
+            JOptionPane.showMessageDialog(taskView, "Error deleting task: " + e.getMessage());
     }
+
+}
 
     private void executeUpdateTask() {
         try {
