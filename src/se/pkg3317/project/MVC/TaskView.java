@@ -4,16 +4,14 @@
  */
 package se.pkg3317.project.MVC;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import se.pkg3317.project.MVC.Task;
 import se.pkg3317.project.MVC.Category;
 import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import se.pkg3317.project.decorator.BasicMessage;
-import se.pkg3317.project.decorator.Date;
-import se.pkg3317.project.decorator.Day;
-import se.pkg3317.project.decorator.Message;
 import se.pkg3317.project.tools.SQLConnection;
 import se.pkg3317.project.tools.TimerOperations;
 
@@ -45,6 +43,14 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public static Date stringToDate(String string) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = dateFormat.parse(string);
+        
+        return date;
+    }
+   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -266,7 +272,7 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Category work = new Category("work");
-                Task task = new Task("plan work", "a", work, "01-03-2025");
+                Task task = new Task("plan work", "a", work, stringToDate("01-03-2025"));
                 TaskView view = new TaskView(work);
                 view.setVisible(true);
                 SQLConnection c = new SQLConnection(view);
@@ -294,7 +300,7 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     private javax.swing.JTable tasklistTable;
     // End of variables declaration//GEN-END:variables
 
-    public String getDateLabel() {
+    public String getDateLabelText() {
         return DateLabel.getText();
     }
 
