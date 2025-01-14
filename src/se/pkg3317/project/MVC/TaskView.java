@@ -23,7 +23,7 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
     TaskSubject taskSubject;
     TimerOperations timerOperation;
-    
+
     public TaskView(TaskSubject taskSubject) {
         this.taskSubject = taskSubject;
         taskSubject.addObserver(this);
@@ -43,14 +43,19 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public static Date stringToDate(String string) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = dateFormat.parse(string);
-        
-        return date;
+    public static Date stringToDate(String string) {
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date date = dateFormat.parse(string);
+
+            return date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-   
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
