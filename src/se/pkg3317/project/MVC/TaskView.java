@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
@@ -94,6 +95,27 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         loadTasksToTable();
     }
 
+public boolean controlDeadline() {
+    DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
+
+    // Label'daki tarihi String olarak al
+    String labelDateText = getDateLabelText(); // Örneğin, "15.01.2025"
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    for (int row = 0; row < model.getRowCount(); row++) {
+        // Tablo hücresindeki Date verisini String'e çevir
+        Date deadline = (Date) model.getValueAt(row, 3);
+        String deadlineAsString = formatter.format(deadline);
+
+        // Karşılaştır
+        if (deadlineAsString.equals(labelDateText)) {
+            return true;
+        }
+    }
+    return false;
+}
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
