@@ -8,30 +8,50 @@ package se.pkg3317.project.tools;
  *
  * @author No2Mo
  */
+import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
-public class TimerOperations {
+public class TimeOperations {
 
     private JLabel dayLabel;
     private JLabel dateLabel;
-    private LocalDate currentDate; // Use LocalDate for simplicity
+    private LocalDate currentDate;
     private Timer timer;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
 
-    public TimerOperations(JLabel dayLabel, JLabel dateLabel, String startDate) {
+    public TimeOperations(JLabel dayLabel, JLabel dateLabel, String startDate) {
+        
         this.dayLabel = dayLabel;
         this.dateLabel = dateLabel;
+        timer = new Timer();
 
-        // Initialize the current date using the current year and provided day/month
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
-        int currentYear = LocalDate.now().getYear(); // Use the current year
-        this.currentDate = LocalDate.parse(startDate + "." + currentYear, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        this.timer = new Timer();
+        int currentYear = LocalDate.now().getYear();
+        currentDate = LocalDate.parse(startDate + "." + currentYear, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        dayLabel.setText(capitalize(currentDate.getDayOfWeek().toString().toLowerCase()));
+        dateLabel.setText(currentDate.format(formatter));
+
     }
+    
+    public static Date stringToDate(String string) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            Date date = dateFormat.parse(string);
+
+            return date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
 
     public void start() {
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -39,7 +59,7 @@ public class TimerOperations {
             public void run() {
                 updateDate();
             }
-        }, 0, 5000); // Update every 5 seconds
+        }, 5000, 5000); // Update every 5 seconds
     }
 
     public void stop() {
@@ -51,8 +71,8 @@ public class TimerOperations {
         currentDate = currentDate.plusDays(1);
 
         // Format the new day and date
-        final String newDay = capitalize(currentDate.getDayOfWeek().toString().toLowerCase()); // Get day of the week
-        final String newDate = currentDate.format(DateTimeFormatter.ofPattern("dd.MM"));
+        String newDay = capitalize(currentDate.getDayOfWeek().toString().toLowerCase()); // Get day of the week
+        String newDate = currentDate.format(formatter);
 
         // Update labels on the Swing UI thread
         SwingUtilities.invokeLater(() -> {

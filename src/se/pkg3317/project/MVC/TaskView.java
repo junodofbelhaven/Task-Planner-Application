@@ -4,16 +4,11 @@
  */
 package se.pkg3317.project.MVC;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import se.pkg3317.project.MVC.Task;
-import se.pkg3317.project.MVC.Category;
 import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
 import se.pkg3317.project.tools.SQLConnection;
-import se.pkg3317.project.tools.TimerOperations;
+import se.pkg3317.project.tools.TimeOperations;
 
 /**
  *
@@ -22,15 +17,13 @@ import se.pkg3317.project.tools.TimerOperations;
 public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
     TaskSubject taskSubject;
-    TimerOperations timerOperation;
+    TimeOperations timerOperation;
 
     public TaskView(TaskSubject taskSubject) {
         this.taskSubject = taskSubject;
         taskSubject.addObserver(this);
         initComponents();
-        DayLabel.setText("Tuesday");
-        DateLabel.setText("14.01");
-        timerOperation = new TimerOperations(DayLabel, DateLabel, "14.01");
+        timerOperation = new TimeOperations(DayLabel, DateLabel, "14.01");
         timerOperation.start();
     }
 
@@ -41,19 +34,6 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public static Date stringToDate(String string) {
-        try {
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = dateFormat.parse(string);
-
-            return date;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
@@ -276,9 +256,8 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Category work = new Category("work");
-                Task task = new Task("plan work", "a", work, stringToDate("01-03-2025"));
-                TaskView view = new TaskView(work);
+                Task task = new Task("plan work", "a", work, TimeOperations.stringToDate("01.03.2025"));
+                TaskView view = new TaskView();
                 view.setVisible(true);
                 SQLConnection c = new SQLConnection(view);
                 c.loadTasksToTable();

@@ -12,13 +12,9 @@ package se.pkg3317.project.tools;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-import se.pkg3317.project.MVC.TaskView;
-import se.pkg3317.project.MVC.Task;
-import se.pkg3317.project.MVC.Category;
 import java.sql.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import se.pkg3317.project.MVC.Category;
 import se.pkg3317.project.MVC.Task;
@@ -49,7 +45,8 @@ public class SQLConnection {
         }
     }
 
-    public void listTasksByCategory(Category work, Category home, Category holiday) throws ParseException {
+    public void listTasksByCategory(Category work, Category home, Category holiday) {
+
         try (Statement stmt = connection.createStatement()) {
             String query = "SELECT * FROM tasks";
             ResultSet rs = stmt.executeQuery(query);
@@ -58,9 +55,7 @@ public class SQLConnection {
                 String taskName = rs.getString("taskName");
                 String description = rs.getString("description");
                 String categoryStr = rs.getString("category");
-                String deadline = rs.getString("deadline");
-
-                Date dateDeadline = (Date) dateFormat.parse(deadline);
+                Date dateDeadline = rs.getDate("deadline");
 
                 if (categoryStr.equals("work")) {
                     Task task = new Task(taskName, description, work, dateDeadline);
@@ -75,6 +70,7 @@ public class SQLConnection {
 
             }
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(view, "Failed listTasksByCategory");
             e.printStackTrace();
         }
     }
