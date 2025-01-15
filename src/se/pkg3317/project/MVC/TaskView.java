@@ -8,8 +8,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,24 +22,24 @@ import se.pkg3317.project.tools.UpdateTaskView;
  */
 public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
-    TaskSubject taskSubject;
+    TaskModel taskModel;
     TimeOperations timerOperation;
     TaskController controller;
     AddTaskView addTaskView;
     UpdateTaskView updateTaskView;
 
-    public TaskView(TaskSubject taskSubject, TaskController controller) {
+    public TaskView(TaskModel taskModel, TaskController controller) {
 
         this.controller = controller;
-        this.taskSubject = taskSubject;
-        taskSubject.addObserver(this);
+        this.taskModel = taskModel;
+        this.taskModel.addObserver(this);
 
         addTaskView = new AddTaskView(controller);
         updateTaskView = new UpdateTaskView(controller);
 
         initComponents();
 
-        timerOperation = new TimeOperations(DayLabel, DateLabel, "14.01");
+        timerOperation = new TimeOperations(taskModel, this, "14.01");
         timerOperation.start();
 
         loadTasksToTable();
@@ -63,6 +61,10 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         return DateLabel.getText();
     }
 
+    public JTable getNotificationTable() {
+        return notificationTable;
+    }    
+    
     public void loadTasksToTable() {
 
         String query = "SELECT taskName, description, category, deadline FROM tasks";
@@ -95,7 +97,6 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         loadTasksToTable();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,7 +106,6 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jProgressBar1 = new javax.swing.JProgressBar();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         DayLabel = new javax.swing.JLabel();
@@ -123,6 +123,7 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         editButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         setSize(new java.awt.Dimension(0, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -143,6 +144,10 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Birthday Celebration Message");
 
+        BirthdayLabel.setBackground(new java.awt.Color(255, 255, 204));
+        BirthdayLabel.setFont(new java.awt.Font("Georgia", 0, 24)); // NOI18N
+        BirthdayLabel.setForeground(new java.awt.Color(153, 255, 153));
+        BirthdayLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         BirthdayLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         tasklistTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -175,24 +180,31 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
         notificationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "Task Name"
+                "Notification"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(notificationTable);
+        if (notificationTable.getColumnModel().getColumnCount() > 0) {
+            notificationTable.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Task List");
@@ -230,14 +242,17 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(DateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(DayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,9 +329,9 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel BirthdayLabel;
-    private javax.swing.JLabel DateLabel;
-    private javax.swing.JLabel DayLabel;
+    public javax.swing.JLabel BirthdayLabel;
+    public javax.swing.JLabel DateLabel;
+    public javax.swing.JLabel DayLabel;
     private javax.swing.JButton addTaskButton;
     private javax.swing.JButton deleteTaskButton;
     private javax.swing.JButton editButton;
@@ -325,7 +340,6 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable notificationTable;

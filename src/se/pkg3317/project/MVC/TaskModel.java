@@ -24,9 +24,6 @@ public class TaskModel implements TaskSubject {
 
     private SQLConnection sqlConnection;
 
-    private Date anilinDG = TimeOperations.stringToDate("20.01.2025");
-    private Date ozaninDG = TimeOperations.stringToDate("25.01.2025");
-
     private TaskOperation addTaskOperation;
     private TaskOperation updateTaskOperation;
     private TaskOperation deleteTaskOperation;
@@ -47,23 +44,19 @@ public class TaskModel implements TaskSubject {
     public Category getCategoryByCategoryName(String categoryName) {
 
         return switch (categoryName) {
-            case "work" -> work;
-            case "holiday" -> holiday;
-            case "home" -> home;
-            default -> null;
+            case "work" ->
+                work;
+            case "holiday" ->
+                holiday;
+            case "home" ->
+                home;
+            default ->
+                null;
         };
     }
 
     public SQLConnection getsQLConnection() {
         return sqlConnection;
-    }
-
-    public Date getAnilinDG() {
-        return anilinDG;
-    }
-
-    public Date getOzaninDG() {
-        return ozaninDG;
     }
 
     private void executeTask(TaskOperation operation, Task task) {
@@ -98,6 +91,12 @@ public class TaskModel implements TaskSubject {
         for (TaskObserver o : observers) {
             o.update();
         }
+    }
+
+    public void sendNotificationAllCategories(TaskView taskView) {
+        work.sendNotification(taskView);
+        home.sendNotification(taskView);
+        holiday.sendNotification(taskView);
     }
 
 }

@@ -5,7 +5,9 @@
 package se.pkg3317.project.decorator;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import se.pkg3317.project.MVC.Task;
 
 /**
  *
@@ -14,13 +16,16 @@ import java.time.format.DateTimeFormatter;
 public class DecoratorDate extends Decorator {
 
     Message message;
-   
-    
+    Task task;
+
+    public DecoratorDate(Message message, Task task) {
+        this.message = message;
+        this.task = task;
+    }
+
     @Override
     public String getMessage() {
-        return message.getMessage() + "," + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ")";
+        return message.getMessage() + "," + task.getDeadline().toString() + ")";
     }
-    
-    
 
 }
