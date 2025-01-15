@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Category implements Component {
 
     private String categoryName;
-    private ArrayList<Task> taskList;
+    public ArrayList<Task> taskList;
 
     public Category(String categoryName) {
         this.categoryName = categoryName;

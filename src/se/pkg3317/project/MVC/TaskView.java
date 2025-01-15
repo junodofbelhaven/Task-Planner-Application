@@ -12,8 +12,10 @@ import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.tools.AddTaskView;
 import se.pkg3317.project.tools.SQLConnection;
 import se.pkg3317.project.tools.TimeOperations;
+import se.pkg3317.project.tools.UpdateTaskView;
 
 /**
  *
@@ -23,13 +25,33 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
     TaskSubject taskSubject;
     TimeOperations timerOperation;
+    TaskController controller;
+    AddTaskView addTaskView;
+    UpdateTaskView updateTaskView;
 
-    public TaskView(TaskSubject taskSubject) {
+    public TaskView(TaskSubject taskSubject, TaskController controller) {
+
+        this.controller = controller;
         this.taskSubject = taskSubject;
         taskSubject.addObserver(this);
+
+        addTaskView = new AddTaskView(controller);
+        updateTaskView = new UpdateTaskView(controller);
+
         initComponents();
+
         timerOperation = new TimeOperations(DayLabel, DateLabel, "14.01");
         timerOperation.start();
+
+        loadTasksToTable();
+    }
+
+    public AddTaskView getAddTaskView() {
+        return addTaskView;
+    }
+
+    public UpdateTaskView getUpdateTaskView() {
+        return updateTaskView;
     }
 
     public JTable getTasklistTable() {
@@ -42,7 +64,7 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
     public void loadTasksToTable() {
 
-        String query = "SELECT taskName, shortDescription, category, deadline FROM tasks";
+        String query = "SELECT taskName, description, category, deadline FROM tasks";
 
         DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
 
@@ -52,12 +74,11 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
             while (resultSet.next()) {
                 String taskName = resultSet.getString("taskName");
-                String shortDescription = resultSet.getString("shortDescription");
+                String description = resultSet.getString("description");
                 String category = resultSet.getString("category");
                 Date deadline = resultSet.getDate("deadline");
 
-                // Her satırı tabloya ekle
-                model.addRow(new Object[]{taskName, shortDescription, category, deadline});
+                model.addRow(new Object[]{taskName, description, category, deadline});
             }
 
         } catch (SQLException e) {
@@ -275,15 +296,25 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTaskButtonActionPerformed
-        // TODO add your handling code here:
+        addTaskView.setVisible(true);
     }//GEN-LAST:event_addTaskButtonActionPerformed
 
     private void deleteTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTaskButtonActionPerformed
-        // TODO add your handling code here:
+        controller.executeDeleteTask();
     }//GEN-LAST:event_deleteTaskButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tasklistTable.getSelectedRow();
+        updateTaskView.setTaskNameField(String.valueOf(tasklistTable.getModel().getValueAt(selectedRow, 0)));
+        updateTaskView.getDescriptionTextArea().setText(String.valueOf(tasklistTable.getModel().getValueAt(selectedRow, 1)));
+        updateTaskView.getCategoryComboBox().setSelectedItem(tasklistTable.getModel().getValueAt(selectedRow, 2));
+
+        String dateString = String.valueOf(tasklistTable.getModel().getValueAt(selectedRow, 3));
+        String[] dateParts = dateString.split("-");
+        updateTaskView.getMonthComboBox().setSelectedItem(dateParts[1]);
+        updateTaskView.getDayComboBox().setSelectedItem(dateParts[2]);
+
+        updateTaskView.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
 

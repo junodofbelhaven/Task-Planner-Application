@@ -17,11 +17,12 @@ import se.pkg3317.project.MVC.Task;
  */
 public class UpdateTaskOperation implements TaskOperation {
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    
     @Override
     public void execute(Task task) {
-        try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("UPDATE tasks description = ?, category = ?, deadline = ? WHERE taskName = ?")) {
+        try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("UPDATE Tasks SET description = ?, category = ?, deadline = ? WHERE taskName = ?")) {
             stmt.setString(1, task.getDesc());
             stmt.setString(2, task.getCategory().getCategoryName());
             String deadline = dateFormat.format(task.getDeadline());

@@ -18,11 +18,11 @@ import se.pkg3317.project.tools.TimeOperations;
  */
 public class TaskModel implements TaskSubject {
 
-    private final Category work;
-    private final Category holiday;
-    private final Category home;
+    public final Category work;
+    public final Category holiday;
+    public final Category home;
 
-    private SQLConnection sQLConnection;
+    private SQLConnection sqlConnection;
 
     private Date anilinDG = TimeOperations.stringToDate("20.01.2025");
     private Date ozaninDG = TimeOperations.stringToDate("25.01.2025");
@@ -33,11 +33,12 @@ public class TaskModel implements TaskSubject {
 
     private ArrayList<TaskObserver> observers = new ArrayList<>();
 
-    public TaskModel(TaskView view, TaskOperation addTaskOperation, TaskOperation updateTaskOperation, TaskOperation deleteTaskOperation) {
+    public TaskModel(TaskOperation addTaskOperation, TaskOperation updateTaskOperation, TaskOperation deleteTaskOperation) {
         work = new Category("work");
         holiday = new Category("holiday");
         home = new Category("home");
-        sQLConnection = new SQLConnection(view);
+        sqlConnection = new SQLConnection();
+        sqlConnection.listTasksByCategory(work, home, holiday);
         this.addTaskOperation = addTaskOperation;
         this.updateTaskOperation = updateTaskOperation;
         this.deleteTaskOperation = deleteTaskOperation;
@@ -46,15 +47,15 @@ public class TaskModel implements TaskSubject {
     public Category getCategoryByCategoryName(String categoryName) {
 
         return switch (categoryName) {
-            case "Work" -> work;
-            case "Holiday" -> holiday;
-            case "Home" -> home;
+            case "work" -> work;
+            case "holiday" -> holiday;
+            case "home" -> home;
             default -> null;
         };
     }
 
     public SQLConnection getsQLConnection() {
-        return sQLConnection;
+        return sqlConnection;
     }
 
     public Date getAnilinDG() {

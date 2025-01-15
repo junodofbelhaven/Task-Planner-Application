@@ -29,7 +29,7 @@ public class SQLConnection {
         return connection;
     }
 
-    public SQLConnection(TaskView view) {
+    public SQLConnection() {
 
         String URL = "jdbc:mysql://localhost:3306/task_db";
         String username = "root";
@@ -56,13 +56,10 @@ public class SQLConnection {
 
                 if (categoryStr.equals("work")) {
                     Task task = new Task(taskName, description, work, dateDeadline);
-                    work.addTask(task);
                 } else if (categoryStr.equals("home")) {
                     Task task = new Task(taskName, description, home, dateDeadline);
-                    home.addTask(task);
                 } else if (categoryStr.equals("holiday")) {
                     Task task = new Task(taskName, description, holiday, dateDeadline);
-                    holiday.addTask(task);
                 }
 
             }

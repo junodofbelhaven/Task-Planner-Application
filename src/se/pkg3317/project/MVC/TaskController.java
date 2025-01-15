@@ -7,9 +7,10 @@ package se.pkg3317.project.MVC;
 import se.pkg3317.project.strategy.TaskOperation;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
-import se.pkg3317.project.tools.addTaskView;
+import se.pkg3317.project.tools.AddTaskView;
 import java.util.Date;
 import se.pkg3317.project.tools.TimeOperations;
+import se.pkg3317.project.tools.UpdateTaskView;
 
 /**
  *
@@ -17,14 +18,18 @@ import se.pkg3317.project.tools.TimeOperations;
  */
 public class TaskController {
 
-    private TaskView taskView;
-    private TaskModel model;
-    private addTaskView addTaskView;
+    private final TaskView taskView;
+    private final TaskModel model;
+    private final AddTaskView addTaskView;
+    private final UpdateTaskView updateTaskView;
 
-    public TaskController(TaskView taskView, TaskModel model, addTaskView addTaskView) {
-        this.taskView = taskView;
+    public TaskController(TaskModel model) {
+        this.taskView = new TaskView(model, this);
         this.model = model;
-        this.addTaskView = addTaskView;        
+        this.addTaskView = taskView.getAddTaskView();        
+        this.updateTaskView = taskView.getUpdateTaskView(); 
+        
+        taskView.setVisible(true);
     }
 
     private boolean validateInputs(String taskName, String description, String categoryName, String deadline) {
@@ -74,12 +79,14 @@ public class TaskController {
         String taskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
         String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
         
+        
         Category category = model.getCategoryByCategoryName(categoryName);
         Task task = category.getTaskByName(taskName);
-
-        String newDescription = addTaskView.getDescriptionTextArea().getText();
-        String newDeadline = addTaskView.getSelectedDay() + "." + addTaskView.getSelectedMonth() + ".2025";
-        String newCategory = addTaskView.getSelectedCategory();
+        
+        updateTaskView.setTaskNameField(taskName);
+        String newDescription = updateTaskView.getDescriptionTextArea().getText();
+        String newDeadline = updateTaskView.getSelectedDay() + "." + updateTaskView.getSelectedMonth() + ".2025";
+        String newCategory = updateTaskView.getSelectedCategory();
 
         if (!validateInputs(taskName, newDescription, newCategory, newDeadline)) {
             JOptionPane.showMessageDialog(taskView, "All fields are required!");

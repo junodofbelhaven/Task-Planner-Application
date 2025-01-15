@@ -17,14 +17,14 @@ import se.pkg3317.project.MVC.Task;
  */
 public class AddTaskOperation implements TaskOperation {
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public void execute(Task task) {
         try (PreparedStatement stmt = SQLConnection.getConnection().prepareStatement("INSERT INTO tasks (taskName, description, category, deadline) VALUES (?, ?, ?, ?)")) {
             stmt.setString(1, task.getTaskName());
             stmt.setString(2, task.getDesc());
-            stmt.setString(3, task.getCategory().toString());
+            stmt.setString(3, task.getCategory().getCategoryName());
             String deadline = dateFormat.format(task.getDeadline());
             stmt.setDate(4, Date.valueOf(deadline));
             stmt.executeUpdate();
