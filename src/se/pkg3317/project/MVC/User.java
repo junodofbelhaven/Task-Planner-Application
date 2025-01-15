@@ -12,10 +12,10 @@ import java.util.Date;
  */
 public class User {
     
-  String name;
-  Date birthdate ;
+  public String name;
+  public String birthdate;
 
-    public User(String name, Date birthdate) {
+    public User(String name, String birthdate) {
         this.name = name;
         this.birthdate = birthdate;
     }

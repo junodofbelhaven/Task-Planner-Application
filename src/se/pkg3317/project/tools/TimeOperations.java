@@ -8,6 +8,7 @@ package se.pkg3317.project.tools;
  *
  * @author No2Mo
  */
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -26,7 +27,7 @@ public class TimeOperations {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
 
     public TimeOperations(JLabel dayLabel, JLabel dateLabel, String startDate) {
-        
+
         this.dayLabel = dayLabel;
         this.dateLabel = dateLabel;
         timer = new Timer();
@@ -38,20 +39,17 @@ public class TimeOperations {
         dateLabel.setText(currentDate.format(formatter));
 
     }
-    
+
     public static Date stringToDate(String string) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date date = dateFormat.parse(string);
-
             return date;
-        } catch (Exception e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }
     }
-    
-    
 
     public void start() {
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -59,7 +57,7 @@ public class TimeOperations {
             public void run() {
                 updateDate();
             }
-        }, 5000, 5000); // Update every 5 seconds
+        }, 5000, 5000); // Update every 5 seconds, start after 5 seconds. 
     }
 
     public void stop() {
@@ -67,14 +65,12 @@ public class TimeOperations {
     }
 
     private void updateDate() {
-        // Move to the next day
+
         currentDate = currentDate.plusDays(1);
 
-        // Format the new day and date
-        String newDay = capitalize(currentDate.getDayOfWeek().toString().toLowerCase()); // Get day of the week
+        String newDay = capitalize(currentDate.getDayOfWeek().toString().toLowerCase()); 
         String newDate = currentDate.format(formatter);
 
-        // Update labels on the Swing UI thread
         SwingUtilities.invokeLater(() -> {
             dayLabel.setText(newDay);
             dateLabel.setText(newDate);

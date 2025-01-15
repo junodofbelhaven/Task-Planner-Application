@@ -5,7 +5,6 @@
 package se.pkg3317.project.MVC;
 
 import java.util.Date;
-import se.pkg3317.project.decorator.BasicMessage;
 import se.pkg3317.project.decorator.Message;
 
 /**
@@ -26,7 +25,6 @@ public class Task implements Component {
         this.category = category;
         this.deadline = deadline;
         category.addTask(this);
-        message = new BasicMessage(this);
     }
 
     public void updateTaskVariables(String desc, Category category, Date deadline) {

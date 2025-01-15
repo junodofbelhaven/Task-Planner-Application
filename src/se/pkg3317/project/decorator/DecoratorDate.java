@@ -11,18 +11,23 @@ import java.time.format.DateTimeFormatter;
  *
  * @author No2Mo
  */
-public class Date extends Decorator {
+public class DecoratorDate extends Decorator {
     
     Message message;
     
-    public Date(Message message) {
+    
+    public DecoratorDate(Message message) {
         this.message = message;   
     }
 
     @Override
     public String getMessage() {
-       String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM"));
+       String date = LocalDate.parse(task.getDeadline().toString(),DateTimeFormatter.ofPattern("dd.MM")).format(DateTimeFormatter.ofPattern("dd.MM"));
         return message.getMessage() + date;
+    }
+    
+    public static void main(String[] args) {
+        
     }
 
 }

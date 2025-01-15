@@ -6,10 +6,9 @@ public class NotificationMessage extends Decorator {
 
     Message message;
     Task task;
-
+    
     public NotificationMessage(Message message, Task task) {
         this.message = message;
-        this.task = task;
     }
 
     @Override

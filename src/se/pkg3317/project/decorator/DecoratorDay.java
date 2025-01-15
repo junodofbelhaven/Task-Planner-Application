@@ -11,11 +11,11 @@ import java.time.LocalDate;
  *
  * @author No2Mo
  */
-public class Day extends Decorator {
+public class DecoratorDay extends Decorator {
 
   Message message;
   
-    public Day(Message message) {
+    public DecoratorDay(Message message) {
         this.message = message;
     }
 
