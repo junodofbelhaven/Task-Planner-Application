@@ -10,6 +10,6 @@ package se.pkg3317.project.MVC;
  */
 public interface Component {
 
-    public void sendNotification();
+    public void sendNotification(TaskView taskView);
 
 }

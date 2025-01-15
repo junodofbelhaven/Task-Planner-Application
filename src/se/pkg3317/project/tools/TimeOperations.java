@@ -18,19 +18,30 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.MVC.TaskModel;
+import se.pkg3317.project.MVC.TaskView;
+import se.pkg3317.project.MVC.User;
+import se.pkg3317.project.decorator.BasicMessage;
+import se.pkg3317.project.decorator.BirthdayMessage;
+import se.pkg3317.project.decorator.Message;
 
 public class TimeOperations {
 
+    private TaskModel taskModel;
+    private TaskView taskView;
     private JLabel dayLabel;
     private JLabel dateLabel;
     private LocalDate currentDate;
     private Timer timer;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
+    User user = new User("ozanil", "15.01");
 
-    public TimeOperations(JLabel dayLabel, JLabel dateLabel, String startDate) {
+    public TimeOperations(TaskModel taskModel, TaskView taskView, String startDate) {
 
-        this.dayLabel = dayLabel;
-        this.dateLabel = dateLabel;
+        this.taskView = taskView;
+        this.taskModel = taskModel;
+        dayLabel = taskView.DayLabel;
+        dateLabel = taskView.DateLabel;
         timer = new Timer();
 
         int currentYear = LocalDate.now().getYear();
@@ -57,6 +68,10 @@ public class TimeOperations {
             @Override
             public void run() {
                 updateDate();
+                DefaultTableModel tableModel = (DefaultTableModel) taskView.getNotificationTable().getModel();
+                tableModel.setRowCount(0);
+                taskModel.sendNotificationAllCategories(taskView);
+                isBirthday();
             }
         }, 5000, 5000); // Update every 5 seconds, start after 5 seconds. 
     }
@@ -69,7 +84,7 @@ public class TimeOperations {
 
         currentDate = currentDate.plusDays(1);
 
-        String newDay = capitalize(currentDate.getDayOfWeek().toString().toLowerCase()); 
+        String newDay = capitalize(currentDate.getDayOfWeek().toString().toLowerCase());
         String newDate = currentDate.format(formatter);
 
         SwingUtilities.invokeLater(() -> {
@@ -78,26 +93,18 @@ public class TimeOperations {
         });
     }
 
+    public void isBirthday() {
+        if (taskView.getDateLabelText().equals(user.birthDate)) {
+            Message message = new BasicMessage();
+            message = new BirthdayMessage(message, user);
+            taskView.BirthdayLabel.setText(message.getMessage());
+        } else {
+            taskView.BirthdayLabel.setText("");
+        }
+    }
+
     private String capitalize(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-    
-    public boolean controlDeadline(java.sql.Date deadline) {
-        
-        DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
 
-        String labelDateText = getDateLabelText();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM");
-
-        String deadlineAsString = formatter.format(deadline);
-
-        if (deadlineAsString.equals(labelDateText)) {
-            return true;
-        }
-
-        return false;
-    }
-    
-    
-    
 }

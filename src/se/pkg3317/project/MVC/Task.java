@@ -4,8 +4,14 @@
  */
 package se.pkg3317.project.MVC;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.decorator.BasicMessage;
+import se.pkg3317.project.decorator.DecoratorDate;
+import se.pkg3317.project.decorator.DecoratorDay;
 import se.pkg3317.project.decorator.Message;
+import se.pkg3317.project.decorator.NotificationMessage;
 
 /**
  *
@@ -52,8 +58,29 @@ public class Task implements Component {
     }
 
     @Override
-    public void sendNotification() {
-        
+    public void sendNotification(TaskView view) {
+        if (controlDeadline(view)) {
+            message = new BasicMessage();
+            message = new NotificationMessage(message, this);
+            message = new DecoratorDay(message, this);
+            message = new DecoratorDate(message, this);
+            DefaultTableModel model = (DefaultTableModel) view.getNotificationTable().getModel();
+            model.addRow(new Object[]{message.getMessage()});
+        }
+    }
+
+    public boolean controlDeadline(TaskView view) {
+
+        String labelDateText = view.getDateLabelText();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM");
+
+        String deadlineAsString = formatter.format(deadline);
+
+        if (deadlineAsString.equals(labelDateText)) {
+            return true;
+        }
+
+        return false;
     }
 
 }

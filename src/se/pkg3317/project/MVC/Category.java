@@ -5,7 +5,7 @@
 package se.pkg3317.project.MVC;
 
 import java.util.ArrayList;
-
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -40,12 +40,13 @@ public class Category implements Component {
             }
         }
         return null;
-    }    
+    }
 
     @Override
-    public void sendNotification() {
-        for(Task task : taskList){
-            task.sendNotification();
+    public void sendNotification(TaskView taskView) {
+        DefaultTableModel model = (DefaultTableModel) taskView.getNotificationTable().getModel();
+        for (Task task : taskList) {
+            task.sendNotification(taskView);
         }
     }
 

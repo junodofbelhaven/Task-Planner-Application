@@ -4,8 +4,12 @@
  */
 package se.pkg3317.project.decorator;
 
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import se.pkg3317.project.MVC.Task;
 
 /**
  *
@@ -13,16 +17,23 @@ import java.time.LocalDate;
  */
 public class DecoratorDay extends Decorator {
 
-  Message message;
-  
-    public DecoratorDay(Message message) {
+    Message message;
+    Task task;
+
+    public DecoratorDay(Message message, Task task) {
         this.message = message;
+        this.task = task;
     }
 
     @Override
     public String getMessage() {
-     DayOfWeek today = LocalDate.now().getDayOfWeek();
-     return message.getMessage() + "("+ today.toString();
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(task.getDeadline());
+        LocalDate localDate = LocalDate.parse(formattedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                
+        DayOfWeek deadlineDay = localDate.getDayOfWeek();
+        return message.getMessage() + " (" + deadlineDay.toString();
     }
 
 }
