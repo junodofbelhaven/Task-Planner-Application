@@ -13,11 +13,11 @@ import java.util.Date;
 public class User {
     
   public String name;
-  public String birthdate;
+  public String birthDate;
 
     public User(String name, String birthdate) {
         this.name = name;
-        this.birthdate = birthdate;
+        this.birthDate = birthdate;
     }
   
   

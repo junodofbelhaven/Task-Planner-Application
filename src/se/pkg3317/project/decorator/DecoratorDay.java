@@ -22,7 +22,7 @@ public class DecoratorDay extends Decorator {
     @Override
     public String getMessage() {
      DayOfWeek today = LocalDate.now().getDayOfWeek();
-     return message.getMessage() + today.toString();
+     return message.getMessage() + "("+ today.toString();
     }
 
 }

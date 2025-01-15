@@ -8,17 +8,15 @@ public class BirthdayMessage extends Decorator {
     Message message;
     TaskView view;
     User user;
-    String birthDate;
     
     public BirthdayMessage(Message message, TaskView view, User user) {
         this.message = message;
         this.view = view;
         this.user = user;
-        birthDate = user.birthdate;
     }
 
     public boolean isBirthday() {
-        if (view.getDateLabelText().equals(birthDate)) {
+        if (view.getDateLabelText().equals(user.birthDate)) {
             return true;
         }
         return false;
@@ -27,8 +25,8 @@ public class BirthdayMessage extends Decorator {
     @Override
     public String getMessage() {
         if (isBirthday()) {
-            return message.getMessage() + "Happy Birthday Userrr!";
+            return message.getMessage() + "Happy Birthday " + user.name;
         }
-        return message.getMessage();
+        return "";
     }
 }

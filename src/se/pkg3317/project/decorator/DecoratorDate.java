@@ -12,22 +12,15 @@ import java.time.format.DateTimeFormatter;
  * @author No2Mo
  */
 public class DecoratorDate extends Decorator {
-    
-    Message message;
-    
-    
-    public DecoratorDate(Message message) {
-        this.message = message;   
-    }
 
+    Message message;
+   
+    
     @Override
     public String getMessage() {
-       String date = LocalDate.parse(task.getDeadline().toString(),DateTimeFormatter.ofPattern("dd.MM")).format(DateTimeFormatter.ofPattern("dd.MM"));
-        return message.getMessage() + date;
+        return message.getMessage() + "," + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ")";
     }
     
-    public static void main(String[] args) {
-        
-    }
+    
 
 }
