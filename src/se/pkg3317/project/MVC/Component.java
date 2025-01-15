@@ -4,9 +4,6 @@
  */
 package se.pkg3317.project.MVC;
 
-import javax.swing.table.DefaultTableModel;
-import se.pkg3317.project.decorator.Message;
-
 /**
  *
  * @author anil

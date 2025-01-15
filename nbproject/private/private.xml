@@ -3,20 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/MVC/TaskController.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/BirthdayMessage.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/strategy/UpdateTaskOperation.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/Message.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/NotificationMessage.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/MVC/TaskView.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/tools/addTaskView.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/Date.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/Decorator.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/MVC/Task.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/Day.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/tools/SE3317Project.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/decorator/BasicMessage.java</file>
-            <file>file:/C:/Users/No2Mo/OneDrive/Belgeler/GitHub/SE-3317-project/src/se/pkg3317/project/strategy/DeleteTaskOperation.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/BasicMessage.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/User.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/strategy/AddTaskOperation.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/Component.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/Task.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/tools/addTaskView.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/observer/TaskSubject.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/Message.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/strategy/UpdateTaskOperation.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/strategy/DeleteTaskOperation.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/TaskPlanner.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/Date.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/NotificationMessage.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/Day.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/Decorator.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/strategy/TaskOperation.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/TaskModel.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/decorator/BirthdayMessage.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/.git/config</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/Category.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/TaskView.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/observer/TaskObserver.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/MVC/TaskController.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/tools/SQLConnection.java</file>
+            <file>file:/C:/Users/anil/Desktop/ders/programlama/yazılım%20mimarisi/SE%203317%20project/src/se/pkg3317/project/tools/TimeOperations.java</file>
         </group>
     </open-files>
 </project-private>

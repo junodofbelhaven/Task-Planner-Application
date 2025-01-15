@@ -14,7 +14,7 @@ import se.pkg3317.project.decorator.Message;
  */
 public class Task implements Component {
 
-    private String taskName;
+    private final String taskName;
     private String desc;
     private Category category;
     private Date deadline;
@@ -55,7 +55,7 @@ public class Task implements Component {
 
     @Override
     public void sendNotification() {
-
+        
     }
 
 }

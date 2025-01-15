@@ -7,18 +7,32 @@ package se.pkg3317.project.tools;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import se.pkg3317.project.MVC.TaskController;
 
 /**
  *
  * @author anil
  */
-public class addTaskView extends javax.swing.JFrame {
+public class AddTaskView extends javax.swing.JFrame {
 
-   
-    public addTaskView() {
+    TaskController controller;
+
+    public AddTaskView(TaskController controller) {
+        this.controller = controller;
         initComponents();
     }
 
+    public void clearFields(){
+        
+        categoryComboBox.setSelectedIndex(0);
+        dayComboBox.setSelectedIndex(0);
+        monthComboBox.setSelectedIndex(0);
+        taskNameField.setText("");
+        descriptionTextArea.setText("");
+        
+    }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -37,7 +51,7 @@ public class addTaskView extends javax.swing.JFrame {
         SaveButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Task Name");
@@ -46,16 +60,11 @@ public class addTaskView extends javax.swing.JFrame {
         descriptionTextArea.setRows(5);
         jScrollPane1.setViewportView(descriptionTextArea);
 
-        categoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Work", "Home", "Holiday" }));
-        categoryComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryComboBoxActionPerformed(evt);
-            }
-        });
+        categoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "work", "home", "holiday" }));
 
         dayComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
 
-        monthComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        monthComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         jLabel2.setText("Day");
 
@@ -141,12 +150,9 @@ public class addTaskView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        // TODO add your handling code here:
+        controller.executeAddTask();
+        clearFields();
     }//GEN-LAST:event_SaveButtonActionPerformed
-
-    private void categoryComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_categoryComboBoxActionPerformed
 
     public String getSelectedCategory() {
         return categoryComboBox.getSelectedItem().toString();
@@ -168,15 +174,6 @@ public class addTaskView extends javax.swing.JFrame {
         return taskNameField;
     }
 
-    
-    public static void main(String args[]) {
-                
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new addTaskView().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SaveButton;

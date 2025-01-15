@@ -4,16 +4,18 @@
  */
 package se.pkg3317.project.MVC;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import se.pkg3317.project.MVC.Task;
-import se.pkg3317.project.MVC.Category;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import se.pkg3317.project.tools.AddTaskView;
 import se.pkg3317.project.tools.SQLConnection;
-import se.pkg3317.project.tools.TimerOperations;
+import se.pkg3317.project.tools.TimeOperations;
+import se.pkg3317.project.tools.UpdateTaskView;
 
 /**
  *
@@ -22,38 +24,74 @@ import se.pkg3317.project.tools.TimerOperations;
 public class TaskView extends javax.swing.JFrame implements TaskObserver {
 
     TaskSubject taskSubject;
-    TimerOperations timerOperation;
+    TimeOperations timerOperation;
+    TaskController controller;
+    AddTaskView addTaskView;
+    UpdateTaskView updateTaskView;
 
-    public TaskView(TaskSubject taskSubject) {
+    public TaskView(TaskSubject taskSubject, TaskController controller) {
+
+        this.controller = controller;
         this.taskSubject = taskSubject;
         taskSubject.addObserver(this);
+
+        addTaskView = new AddTaskView(controller);
+        updateTaskView = new UpdateTaskView(controller);
+
         initComponents();
-        DayLabel.setText("Tuesday");
-        DateLabel.setText("14.01");
-        timerOperation = new TimerOperations(DayLabel, DateLabel, "14.01");
+
+        timerOperation = new TimeOperations(DayLabel, DateLabel, "14.01");
         timerOperation.start();
+
+        loadTasksToTable();
+    }
+
+    public AddTaskView getAddTaskView() {
+        return addTaskView;
+    }
+
+    public UpdateTaskView getUpdateTaskView() {
+        return updateTaskView;
     }
 
     public JTable getTasklistTable() {
         return tasklistTable;
     }
 
-    @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getDateLabelText() {
+        return DateLabel.getText();
     }
 
-    public static Date stringToDate(String string) {
-        try {
+    public void loadTasksToTable() {
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = dateFormat.parse(string);
+        String query = "SELECT taskName, description, category, deadline FROM tasks";
 
-            return date;
-        } catch (Exception e) {
+        DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
+
+        model.setRowCount(0);
+
+        try (Statement statement = SQLConnection.getConnection().createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                String taskName = resultSet.getString("taskName");
+                String description = resultSet.getString("description");
+                String category = resultSet.getString("category");
+                Date deadline = resultSet.getDate("deadline");
+
+                model.addRow(new Object[]{taskName, description, category, deadline});
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            javax.swing.JOptionPane.showMessageDialog(null,
+                    "Failed to load the data: " + e.getMessage(),
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public void update() {
+        loadTasksToTable();
     }
 
     /**
@@ -258,33 +296,27 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTaskButtonActionPerformed
-        // TODO add your handling code here:
+        addTaskView.setVisible(true);
     }//GEN-LAST:event_addTaskButtonActionPerformed
 
     private void deleteTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTaskButtonActionPerformed
-        // TODO add your handling code here:
+        controller.executeDeleteTask();
     }//GEN-LAST:event_deleteTaskButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tasklistTable.getSelectedRow();
+        updateTaskView.setTaskNameField(String.valueOf(tasklistTable.getModel().getValueAt(selectedRow, 0)));
+        updateTaskView.getDescriptionTextArea().setText(String.valueOf(tasklistTable.getModel().getValueAt(selectedRow, 1)));
+        updateTaskView.getCategoryComboBox().setSelectedItem(tasklistTable.getModel().getValueAt(selectedRow, 2));
+
+        String dateString = String.valueOf(tasklistTable.getModel().getValueAt(selectedRow, 3));
+        String[] dateParts = dateString.split("-");
+        updateTaskView.getMonthComboBox().setSelectedItem(dateParts[1]);
+        updateTaskView.getDayComboBox().setSelectedItem(dateParts[2]);
+
+        updateTaskView.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Category work = new Category("work");
-                Task task = new Task("plan work", "a", work, stringToDate("01-03-2025"));
-                TaskView view = new TaskView(work);
-                view.setVisible(true);
-                SQLConnection c = new SQLConnection(view);
-                c.loadTasksToTable();
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BirthdayLabel;
@@ -304,9 +336,5 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     private javax.swing.JTable notificationTable;
     private javax.swing.JTable tasklistTable;
     // End of variables declaration//GEN-END:variables
-
-    public String getDateLabelText() {
-        return DateLabel.getText();
-    }
 
 }
