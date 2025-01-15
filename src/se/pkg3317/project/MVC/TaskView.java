@@ -95,26 +95,6 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         loadTasksToTable();
     }
 
-public boolean controlDeadline() {
-    DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
-
-    // Label'daki tarihi String olarak al
-    String labelDateText = getDateLabelText(); // Örneğin, "15.01.2025"
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-    for (int row = 0; row < model.getRowCount(); row++) {
-        // Tablo hücresindeki Date verisini String'e çevir
-        Date deadline = (Date) model.getValueAt(row, 3);
-        String deadlineAsString = formatter.format(deadline);
-
-        // Karşılaştır
-        if (deadlineAsString.equals(labelDateText)) {
-            return true;
-        }
-    }
-    return false;
-}
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,28 +175,21 @@ public boolean controlDeadline() {
 
         notificationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
-                "Task Name", "Deadline"
+                "Task Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false
+                java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(notificationTable);

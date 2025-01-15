@@ -17,6 +17,7 @@ import java.util.TimerTask;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 public class TimeOperations {
 
@@ -80,4 +81,23 @@ public class TimeOperations {
     private String capitalize(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+    
+    public boolean controlDeadline(java.sql.Date deadline) {
+        
+        DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
+
+        String labelDateText = getDateLabelText();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM");
+
+        String deadlineAsString = formatter.format(deadline);
+
+        if (deadlineAsString.equals(labelDateText)) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    
+    
 }
