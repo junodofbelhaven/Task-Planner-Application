@@ -23,7 +23,6 @@ import se.pkg3317.project.MVC.TaskView;
 public class SQLConnection {
 
     private static Connection connection;
-    TaskView view;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public static Connection getConnection() {
@@ -35,8 +34,6 @@ public class SQLConnection {
         String URL = "jdbc:mysql://localhost:3306/task_db";
         String username = "root";
         String password = "asdbnm1122";
-
-        this.view = view;
 
         try {
             this.connection = DriverManager.getConnection(URL, username, password);
@@ -70,36 +67,7 @@ public class SQLConnection {
 
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(view, "Failed listTasksByCategory");
             e.printStackTrace();
-        }
-    }
-
-    public void loadTasksToTable() {
-
-        String query = "SELECT taskName, shortDescription, category, deadline FROM tasks";
-
-        DefaultTableModel model = (DefaultTableModel) view.getTasklistTable().getModel();
-
-        model.setRowCount(0);
-
-        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
-
-            while (resultSet.next()) {
-                String taskName = resultSet.getString("taskName");
-                String shortDescription = resultSet.getString("shortDescription");
-                String category = resultSet.getString("category");
-                Date deadline = resultSet.getDate("deadline");
-
-                // Her satırı tabloya ekle
-                model.addRow(new Object[]{taskName, shortDescription, category, deadline});
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            javax.swing.JOptionPane.showMessageDialog(null,
-                    "Failed to load the data: " + e.getMessage(),
-                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
 

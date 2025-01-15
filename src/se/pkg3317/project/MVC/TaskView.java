@@ -4,9 +4,14 @@
  */
 package se.pkg3317.project.MVC;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import se.pkg3317.project.observer.TaskSubject;
 import se.pkg3317.project.observer.TaskObserver;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import se.pkg3317.project.tools.SQLConnection;
 import se.pkg3317.project.tools.TimeOperations;
 
@@ -31,9 +36,41 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         return tasklistTable;
     }
 
+    public String getDateLabelText() {
+        return DateLabel.getText();
+    }
+
+    public void loadTasksToTable() {
+
+        String query = "SELECT taskName, shortDescription, category, deadline FROM tasks";
+
+        DefaultTableModel model = (DefaultTableModel) tasklistTable.getModel();
+
+        model.setRowCount(0);
+
+        try (Statement statement = SQLConnection.getConnection().createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                String taskName = resultSet.getString("taskName");
+                String shortDescription = resultSet.getString("shortDescription");
+                String category = resultSet.getString("category");
+                Date deadline = resultSet.getDate("deadline");
+
+                // Her satırı tabloya ekle
+                model.addRow(new Object[]{taskName, shortDescription, category, deadline});
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(null,
+                    "Failed to load the data: " + e.getMessage(),
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        loadTasksToTable();
     }
 
     /**
@@ -249,21 +286,6 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
         // TODO add your handling code here:
     }//GEN-LAST:event_editButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Task task = new Task("plan work", "a", work, TimeOperations.stringToDate("01.03.2025"));
-                TaskView view = new TaskView();
-                view.setVisible(true);
-                SQLConnection c = new SQLConnection(view);
-                c.loadTasksToTable();
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BirthdayLabel;
@@ -283,9 +305,5 @@ public class TaskView extends javax.swing.JFrame implements TaskObserver {
     private javax.swing.JTable notificationTable;
     private javax.swing.JTable tasklistTable;
     // End of variables declaration//GEN-END:variables
-
-    public String getDateLabelText() {
-        return DateLabel.getText();
-    }
 
 }

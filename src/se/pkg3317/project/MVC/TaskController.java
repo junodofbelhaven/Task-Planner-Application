@@ -4,10 +4,7 @@
  */
 package se.pkg3317.project.MVC;
 
-import se.pkg3317.project.strategy.AddTaskOperation;
 import se.pkg3317.project.strategy.TaskOperation;
-import se.pkg3317.project.strategy.DeleteTaskOperation;
-import se.pkg3317.project.strategy.UpdateTaskOperation;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import se.pkg3317.project.tools.addTaskView;
@@ -22,61 +19,37 @@ public class TaskController {
 
     private TaskView taskView;
     private TaskModel model;
-    private TaskOperation taskOperation;
-    private final addTaskView addTaskView;
-    private TaskOperation addTaskOperation;
-    private TaskOperation updateTaskOperation;
-    private TaskOperation deleteTaskOperation;
+    private addTaskView addTaskView;
 
-    public TaskController(TaskView taskView, TaskModel model, addTaskView addTaskView, TaskOperation addTaskOperation, TaskOperation updateTaskOperation, TaskOperation deleteTaskOperation) {
+    public TaskController(TaskView taskView, TaskModel model, addTaskView addTaskView) {
         this.taskView = taskView;
         this.model = model;
-        this.addTaskView = addTaskView;
-        this.addTaskOperation = addTaskOperation;
-        this.updateTaskOperation = updateTaskOperation;
-        this.deleteTaskOperation = deleteTaskOperation;
-    }
-    
-    public void setAddTaskOperation(TaskOperation addTaskOperation) {
-        this.addTaskOperation = addTaskOperation;
+        this.addTaskView = addTaskView;        
     }
 
-    public void setUpdateTaskOperation(TaskOperation updateTaskOperation) {
-        this.updateTaskOperation = updateTaskOperation;
-    }
-
-    public void setDeleteTaskOperation(TaskOperation deleteTaskOperation) {
-        this.deleteTaskOperation = deleteTaskOperation;
+    private boolean validateInputs(String taskName, String description, String categoryName, String deadline) {
+        return !taskName.isEmpty() && !description.isEmpty() && !categoryName.isEmpty() && !deadline.isEmpty();
     }  
-       
-    private void executeAddTask() throws ParseException {
 
-        Task task;
-
+    public void executeAddTask() {
         String taskName = addTaskView.getTaskNameField().getText();
         String description = addTaskView.getDescriptionTextArea().getText();
         String deadline = addTaskView.getSelectedDay() + "." + addTaskView.getSelectedMonth() + ".2025";
         String categoryName = addTaskView.getSelectedCategory();
 
-        if (taskName.isEmpty() || description.isEmpty() || categoryName.isEmpty() || deadline.isEmpty()) {
+        if (!validateInputs(taskName, description, categoryName, deadline)) {
             JOptionPane.showMessageDialog(addTaskView, "All fields are required!");
             return;
         }
 
         Date dateDeadline = TimeOperations.stringToDate(deadline);
+        Task task = new Task(taskName, description, model.getCategoryByCategoryName(categoryName), dateDeadline);
 
-        task = new Task(taskName, description, model.getCategoryByCategoryName(categoryName), dateDeadline);
-
-        //adding the new task to sql table
-        taskOperation = addTaskOperation;
-        taskOperation.execute(task);
-
+        model.handleAddTask(task);
     }
 
     public void executeDeleteTask() {
-
         int selectedRow = taskView.getTasklistTable().getSelectedRow();
-
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(taskView, "Please select a task to delete.");
             return;
@@ -84,22 +57,15 @@ public class TaskController {
 
         String deletedTaskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
         String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
-
         Category category = model.getCategoryByCategoryName(categoryName);
         Task deletedTask = category.getTaskByName(deletedTaskName);
-
         category.removeTask(deletedTask);
 
-        //deleting the task in SQL table
-        taskOperation = deleteTaskOperation;
-        taskOperation.execute(deletedTask);
-
+        model.handleDeleteTask(deletedTask);
     }
 
-    private void executeUpdateTask() throws ParseException {
-
+    public void executeUpdateTask() {
         int selectedRow = taskView.getTasklistTable().getSelectedRow();
-
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(taskView, "Please select a task to edit.");
             return;
@@ -107,26 +73,23 @@ public class TaskController {
 
         String taskName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 0));
         String categoryName = String.valueOf(taskView.getTasklistTable().getModel().getValueAt(selectedRow, 2));
+        
         Category category = model.getCategoryByCategoryName(categoryName);
         Task task = category.getTaskByName(taskName);
 
         String newDescription = addTaskView.getDescriptionTextArea().getText();
-        String newDeadline = (addTaskView.getSelectedDay() + "." + addTaskView.getSelectedMonth() + ".2025").trim();
+        String newDeadline = addTaskView.getSelectedDay() + "." + addTaskView.getSelectedMonth() + ".2025";
         String newCategory = addTaskView.getSelectedCategory();
 
-        Date dateNewDeadline = TimeOperations.stringToDate(newDeadline);
-
-        if (newDescription.isEmpty() || newCategory.isEmpty() || newDeadline.isEmpty()) {
+        if (!validateInputs(taskName, newDescription, newCategory, newDeadline)) {
             JOptionPane.showMessageDialog(taskView, "All fields are required!");
             return;
         }
 
+        Date dateNewDeadline = TimeOperations.stringToDate(newDeadline);
         task.updateTaskVariables(newDescription, model.getCategoryByCategoryName(newCategory), dateNewDeadline);
-
-        //updating the task in SQL table
-        taskOperation = updateTaskOperation;
-        taskOperation.execute(task);
-
+        //buna bak
+        
+        model.handleUpdateTask(task);
     }
-
 }
