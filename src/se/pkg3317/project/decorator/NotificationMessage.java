@@ -14,6 +14,6 @@ public class NotificationMessage extends Decorator {
 
     @Override
     public String getMessage() {
-        return message.getMessage() + task.getTaskName() + " has 1 day to end. ";
+        return message.getMessage() + task.getTaskName() + " ends today. ";
     }
 }

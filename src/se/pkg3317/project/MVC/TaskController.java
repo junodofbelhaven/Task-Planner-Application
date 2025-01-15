@@ -95,7 +95,6 @@ public class TaskController {
 
         Date dateNewDeadline = TimeOperations.stringToDate(newDeadline);
         task.updateTaskVariables(newDescription, model.getCategoryByCategoryName(newCategory), dateNewDeadline);
-        //buna bak
         
         model.handleUpdateTask(task);
     }
