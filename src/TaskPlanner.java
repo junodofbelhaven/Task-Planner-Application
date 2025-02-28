@@ -1,5 +1,4 @@
 
-import se.pkg3317.project.MVC.Task;
 import se.pkg3317.project.MVC.TaskController;
 import se.pkg3317.project.MVC.TaskModel;
 import se.pkg3317.project.strategy.AddTaskOperation;
