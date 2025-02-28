@@ -38,7 +38,7 @@ This will create the necessary database tables and insert sample task data for t
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/task-planner.git
+   git clone https://github.com/junodofbelhaven/task-planner.git
    ```
 2. Navigate to the project folder:
    ```sh
