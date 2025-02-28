@@ -16,14 +16,6 @@ This project is a **Task Planner Application** that utilizes **Software Design P
 
 ## Getting Started
 
-### Prerequisites
-
-Before running the application, ensure you have the following installed:
-
-- **SQL Server**
-- **.NET Framework / .NET Core** (if applicable)
-- **Any required dependencies** (listed in the project configuration)
-
 ### Setting Up the Database
 
 To test the application with sample tasks:
