@@ -2,7 +2,10 @@
 
 ## Overview
 
-This project is a **Task Planner Application** that utilizes **Software Design Patterns** and integrates with a **SQL Server Database**. The application is designed to help users manage tasks efficiently while following best practices in software architecture.
+This project is a **Task Planner Application** that utilizes **Software Design Patterns** and integrates with a **SQL Server Database**. The application is designed to help users manage tasks efficiently while following practices in software architecture.
+
+![image](https://github.com/user-attachments/assets/cef9889e-9e9c-47f0-92fc-5a46fa5994af)
+
 
 ## Features
 
